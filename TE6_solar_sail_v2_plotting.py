@@ -237,7 +237,7 @@ for delta_theta in [-50, 0, 50]:
         zeta = zeta_calc(u)
         Gshear  = N_R * k_B * theta * zeta
         #
-        Tmat = J**(-2/3) * Gshear * (F - inv(F.T) ) - J * p * inv(F.T)
+        Tmat = J**(-2/3) * Gshear * (F - (1/3)*tr(C)*inv(F.T) ) - J * p * inv(F.T)
         return Tmat
     
     # Calculate the stress temperature tensor
