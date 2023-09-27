@@ -43,6 +43,7 @@ August 2023
 
 # Fenics-related packages
 from dolfin import *
+from ufl import eq
 # Numerical array package
 import numpy as np
 # Plotting packages
@@ -201,7 +202,8 @@ def F_ax_calc(u):
     dim = len(u)
     Id = Identity(dim)          # Identity tensor
     F = Id + grad(u)            # 2D Deformation gradient
-    F33 = (x[0]+u[0])/x[0]      # axisymmetric F33, R/R0    
+    F33_exp =  (x[0]+u[0])/x[0]  # axisymmetric F33, R/R0 
+    F33 = conditional(eq(x[0], 0), 1.0, F33_exp) # avoid divide by zero at r=0  
     return as_tensor([[F[0,0], F[0,1], 0],
                   [F[1,0], F[1,1], 0],
                   [0, 0, F33]]) # Full axisymmetric F
